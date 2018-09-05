@@ -2,7 +2,8 @@
   "compilerOptions": {
     "target": "es6",
     "module": "commonjs",
-	"outDir": "./app"
+    "outDir": "./app",
+    "newLine": "LF"
   },
   "include": [
     "src/**/*.ts"
