@@ -34,7 +34,9 @@ class AppBuilder {
 		fs.access(this.build_dir, (err) => {
 			if (err && err.code === 'ENOENT') {
 				// mkdir our build dir
-				fs.mkdir(this.build_dir);
+				fs.mkdir(this.build_dir, (err) = {
+					if (err) throw err;
+				});
 			}
 
 			// Start by getting myapp settings
