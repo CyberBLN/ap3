@@ -50,7 +50,7 @@ class TemplateMaker {
                     const new_directory = this.doc_root + this.dest_dir + '/' + this.file_dir;
                     this.mkdirParent(new_directory, (err) => {
                         if (err) {
-                            // I don't care if the directory already exists, it's what I want	
+                            // I don't care if the directory already exists, it's what I want
                         }
                         this.writeFile(new_file, content);
                     });

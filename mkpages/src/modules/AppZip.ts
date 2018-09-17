@@ -26,20 +26,20 @@ export class AppZip {
 
 		return new Promise((resolve, reject) => {
 			if(this.myappp_settings && this.myappp_settings.meta && this.myappp_settings.meta.appZip) {
-	
+
 				this.filename = this.myappp_settings.meta.appZip.split('/').pop();
 				this.zip_basename = this.filename.replace('.zip', '');
 				this.create_unzip_dir();
-				
+
 				console.log('getting ' + this.filename);
-				
+
 				const http = require('http');
 				const https = require('https');
-	
+
 				console.log('createWriteStream: ' + this.dest_dir + this.filename);
-				
+
 				const file = fs.createWriteStream(this.dest_dir + this.filename);
-				
+
 				if(this.port == 80) {
 					file.on('finish', () => {
 						console.log('finished saving zip');
@@ -81,8 +81,8 @@ export class AppZip {
 					console.log('Incorrect port getting zip file');
 					reject('');
 				}
-				
-	
+
+
 			} else {
 				console.log('Zip file not found.');
 				reject('');
@@ -109,16 +109,16 @@ export class AppZip {
 			console.log(cmd);
 			const child = exec(cmd);
 			child.on('exit', () => {
-	
+
 				console.log('unzip done');
 				resolve(true);
-	
+
 				// setTimeout(() => {
 				// 	const prod = new ProductionProc(this.cli_params, this.zip_basename);
 				// 	if(this.ran_once === false ) {
-	
+
 				// 		console.log('move_production_files');
-	
+
 				// 		prod.move_production_files();
 				// 		this.ran_once = true;
 				// 	}
@@ -126,7 +126,7 @@ export class AppZip {
 			});
 
 		});
-		
-		
+
+
 	}
 }

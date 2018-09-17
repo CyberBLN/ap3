@@ -13,7 +13,7 @@ export class AppSettings {
 	}
 
 	get_settings() {
-	
+
 		return new Promise((resolve, reject) => {
 			let req;
 			const options = {

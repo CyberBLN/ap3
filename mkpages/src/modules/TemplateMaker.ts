@@ -3,10 +3,10 @@ import path = require('path');
 
 /**
  * Class TemplateMaker
- * 
+ *
  * Reads templates from a template_dir, the uses the build_template() to replace key,value
  * pairs and write the resulting file to the file_dir/new_filename.
- * 
+ *
  * @param string template_dir Template_dir The input directory of templates
  * @param string file_dir The output directory of templates
  * @param string doc_root the full or relative path to the
@@ -30,7 +30,7 @@ export class TemplateMaker {
 
 	/**
 	 * Opens a template and replaces key values pairs in a template to create an output file
-	 * 
+	 *
 	 * @param string src_filename The file name of the template
 	 * @param string new_filename The final file (the output file)
 	 * @param array<{key:'', value:''}> Values in the template that need to be replaced
@@ -58,20 +58,20 @@ export class TemplateMaker {
 					this.mkdirParent(new_directory, (err) => {
 
 						if(err) {
-							// I don't care if the directory already exists, it's what I want	
+							// I don't care if the directory already exists, it's what I want
 						}
 
 						this.writeFile(new_file, content);
 
-					});					
+					});
 				}
 			});
-		});		
+		});
 	}
 
 	/**
 	 * Save our new content into a new file.
-	 * 
+	 *
 	 * @param new_file The full file path
 	 * @param content The new content
 	 */
@@ -86,7 +86,7 @@ export class TemplateMaker {
 
 	/**
 	 * Make a directory and any parent directories.
-	 * 
+	 *
 	 * @param dirPath The path you want to make
 	 * @param callback The function to call when done
 	 */

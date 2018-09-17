@@ -18,7 +18,7 @@ class AppBuilder {
 	private intro_page_id = 0;
 	private continue_processing = true;
 	private ran_once = false;
-	
+
 	run() {
 
 		// we need our cli params, or bail
@@ -29,7 +29,7 @@ class AppBuilder {
 		}
 
 		this.clean_up_old_builds();
-		
+
 		// be sure we have a place to save our files
 		fs.access(this.build_dir, (err) => {
 			if (err && err.code === 'ENOENT') {
@@ -69,11 +69,11 @@ class AppBuilder {
 
 					setTimeout(()=>{
 						if(zip_filename) {
-	
+
 							this.zip_basename = zip_filename.toString().replace('.zip', '');
-	
+
 							this.make_components(zip_filename.toString()).then(done => {
-	
+
 								setTimeout(() => {
 									// @TODO instead of a long timeout, trigger an event when ready to continue, if all the pages were created, currently this happends too quickly if there is an error getting page content
 									if(this.continue_processing)
@@ -86,7 +86,7 @@ class AppBuilder {
 					}, 10000);
 
 				});
-				
+
 			} else {
 				console.log(json);
 			}
@@ -104,9 +104,9 @@ class AppBuilder {
 			// setTimeout(() => {
 				const prod = new ProductionProc(this.cli_params, this.zip_basename);
 				if(this.ran_once === false ) {
-	
+
 					console.log('move_production_files');
-	
+
 					prod.move_production_files();
 					this.ran_once = true;
 				}
@@ -116,7 +116,7 @@ class AppBuilder {
 		} else {
 			this.continue_processing = false;
 		}
-		
+
 	}
 
 	/**
@@ -132,7 +132,7 @@ class AppBuilder {
 		exec('mkdir -p builds/'+app_dir+'/bak');
 		exec('cp ../src/app/app.component.ts builds/'+app_dir+'/bak/app.component.ts', () => { });
 		exec('cp ../src/providers/globalvars/globalvars.ts builds/'+app_dir+'/bak/globalvars.ts', () => { });
-		
+
 	}
 
 	make_components(zip_filename: string) {
@@ -141,7 +141,7 @@ class AppBuilder {
 		var itemsProcessed = 0;
 
 		return new Promise((resolve, reject) => {
-	
+
 			menu_items.forEach(element => {
 				if(this.continue_processing) {
 					if(element.page_type == 'html' || element.page_id == this.intro_page_id) {
@@ -170,7 +170,7 @@ class AppBuilder {
 		// 	else
 		// 		console.log('Unable to continue');
 		// }, 10000);
-		
+
 	}
 
 	get_menu_items() {
@@ -235,17 +235,17 @@ class AppBuilder {
 
 	/**
 	 * Each page component consists of
-	 * 
+	 *
 	 * 1. html template
 	 * 2. module
 	 * 3. compontent
-	 * 
+	 *
 	 * Reads the templates of each and replaces matched values with assigned values
-	 * 
-	 * @param page 
+	 *
+	 * @param page
 	 */
 	make_page_html_component(page, zip_filename: string) {
-		
+
 		const page_id = page.page_id;
 		let file_name: string;
 		const src_folder = '../src/pages/custom-pages';
@@ -254,14 +254,14 @@ class AppBuilder {
 		const root_folder = path.resolve('./') + '/';
 
 		const componentMaker = new TemplateMaker(src_folder, new_folder, dest_dir, root_folder);
-		
+
 		if(zip_filename) {
 			this.get_page_content(componentMaker, file_name, page_id, page.slug, zip_filename);
 		} else {
 			// html from api
 			this.get_page_content(componentMaker, file_name, page_id, page.slug, '');
 		}
-		
+
 		// module
 		file_name = 'page-' + page_id + '.module.ts';
 		componentMaker.build_template( 'custom-page.module.ts', file_name, [
@@ -278,10 +278,10 @@ class AppBuilder {
 	}
 
 	/**
-	 * Page content comes from the myapp API. The ContentCollector is the 
+	 * Page content comes from the myapp API. The ContentCollector is the
 	 * tool to get it. Reads the api, builds the html template from it's
 	 * content.
-	 * 
+	 *
 	 * @param componentMaker Reference to our configured tool
 	 * @param file_name New file name
 	 * @param page_id page ID
@@ -298,7 +298,7 @@ class AppBuilder {
 			let zip_folder_path = dest_dir + '/' + zip_filename.replace('.zip', '');
 
 			contentCollector.get_page_content_from_zip(page_id, page_slug, zip_folder_path).then( content => {
-	
+
 				componentMaker.build_template( 'custom-page.html', file_name, [
 					{key: 'Content goes here', value: content}
 				]);
@@ -310,7 +310,7 @@ class AppBuilder {
 			})
 		} else {
 			contentCollector.get_page_content_from_api(page_id).then( (content) => {
-	
+
 				componentMaker.build_template( 'custom-page.html', file_name, [
 					{key: 'Content goes here', value: content}
 				]);
@@ -326,7 +326,7 @@ class AppBuilder {
 
 	/**
 	 * Verify that the proper parameters have been supplied to the cli
-	 * 
+	 *
 	 * Expects `node app [site_name] [app_id]`
 	 */
 	get_cli_params() {
@@ -359,6 +359,6 @@ class AppBuilder {
 	}
 
 }
-	
+
 const appbuilder = new AppBuilder();
 appbuilder.run();

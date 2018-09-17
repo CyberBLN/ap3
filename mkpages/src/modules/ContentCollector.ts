@@ -8,8 +8,8 @@ export class ContentCollector {
 
 	private hostname: string;
 	private port: number;
-	
-	constructor(private site_name: string) { 
+
+	constructor(private site_name: string) {
 		this.hostname = AppConfig.api.server.hostname;
 		this.port     = AppConfig.api.server.port;
 	}
@@ -32,9 +32,9 @@ export class ContentCollector {
 			});
 		});
 	}
-	
+
 	get_page_content_from_api(page_id: string) {
-	
+
 		return new Promise((resolve, reject) => {
 			let req;
 			const options = {
